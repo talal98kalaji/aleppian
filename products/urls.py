@@ -13,3 +13,4 @@ urlpatterns = [
 #/api/products/get/all/?min_price=10000&max_price=20000
 #/api/products/get/all/?ordering=-price
 #/api/products/get/all/?page=2&per_page=5
+#/api/products/get/ 1 /

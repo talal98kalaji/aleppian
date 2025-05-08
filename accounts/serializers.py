@@ -7,19 +7,28 @@ User = get_user_model()
 
 class RegisterSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True)
+    role = serializers.CharField(read_only=True)
+    class Meta:
+        model = User
+        fields = ('username', 'email', 'password', 'role')
+    def create(self, validated_data):
+        validated_data['role'] = 'customer'
+        return User.objects.create_user(**validated_data)
+
+class DataEntrySerializer(serializers.ModelSerializer):
+    password = serializers.CharField(write_only=True)
     class Meta:
         model = User
         fields = ('username', 'email', 'password')
-
     def create(self, validated_data):
-        return User.objects.create_user(**validated_data)
+        validated_data['role'] = 'data_entry'
+        user = User.objects.create_user(**validated_data)
+        return user
 
-class UserSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = User
-        fields = ('id', 'username', 'email', 'is_active', 'is_staff', 'is_superuser')
-        read_only_fields = ('id',)
 
 def get_tokens_for_user(user):
     refresh = RefreshToken.for_user(user)
-    return {'refresh': str(refresh), 'access': str(refresh.access_token)}
+    return {
+        'refresh': str(refresh),
+        'access': str(refresh.access_token),
+    }

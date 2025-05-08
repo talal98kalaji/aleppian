@@ -1,10 +1,20 @@
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from rest_framework import status
+from rest_framework import status ,viewsets
 from .models import Product
 from .serializers import ProductSerializer
 from django.core.paginator import Paginator
 from decimal import Decimal, InvalidOperation
+from rest_framework.permissions import IsAuthenticated
+from accounts.permissions import IsStaffUser
+from rest_framework_simplejwt.authentication import JWTAuthentication
+
+class ProductViewSet(viewsets.ModelViewSet):
+    queryset = Product.objects.all()
+    serializer_class = ProductSerializer
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAuthenticated, IsStaffUser]
+
 
 
 @api_view(['POST'])
@@ -21,7 +31,7 @@ def getAll(request):
     category_id = request.GET.get('category')
     min_price = request.GET.get('min_price')
     max_price = request.GET.get('max_price')
-    ordering = request.GET.get('ordering', 'id')  # default: order by ID
+    ordering = request.GET.get('ordering', 'id') 
     page = int(request.GET.get('page', 1))
     per_page = int(request.GET.get('per_page', 10))
 
