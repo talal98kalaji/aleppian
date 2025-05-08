@@ -86,9 +86,9 @@ DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.mysql",
         "NAME": "antiquedb",
-        "USER": "root",
-        "PASSWORD": "",
-        "HOST": "127.0.0.1",
+        "USER": "talalkalaji",
+        "PASSWORD": "antique321antique",
+        "HOST": "talalkalaji.mysql.pythonanywhere-services.com",
         "PORT": "3306",
         "OPTIONS": {
             "init_command": "SET default_storage_engine=INNODB",
