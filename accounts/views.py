@@ -6,6 +6,7 @@ from rest_framework_simplejwt.authentication import JWTAuthentication
 from django.contrib.auth import authenticate, get_user_model
 from .serializers import RegisterSerializer, DataEntrySerializer, get_tokens_for_user
 from .permissions import IsSuperUser
+from rest_framework.decorators import api_view, permission_classes
 User = get_user_model()
 
 class RegisterView(APIView):
@@ -56,3 +57,15 @@ class CreateDataEntryView(APIView):
             user = serializer.save()
             return Response({'id': user.id}, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def current_user(request):
+    user = request.user
+    return Response({
+        'id': user.id,
+        'username': user.username,
+        'is_superuser': user.is_superuser,
+
+    })

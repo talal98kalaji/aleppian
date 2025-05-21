@@ -6,14 +6,14 @@ from .serializers import ProductSerializer
 from django.core.paginator import Paginator
 from decimal import Decimal, InvalidOperation
 from rest_framework.permissions import IsAuthenticated
-from accounts.permissions import IsStaffUser
+from accounts.permissions import IsSuperUser
 from rest_framework_simplejwt.authentication import JWTAuthentication
 
 class ProductViewSet(viewsets.ModelViewSet):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
     authentication_classes = [JWTAuthentication]
-    permission_classes = [IsAuthenticated, IsStaffUser]
+    permission_classes = [IsAuthenticated, IsSuperUser]
 
 
 

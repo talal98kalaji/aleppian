@@ -1,6 +1,6 @@
 # accounts/urls.py
 from django.urls import path,include
-from .views import RegisterView, LoginView, CreateSuperUserView,CreateDataEntryView, UserViewSet
+from .views import current_user, RegisterView, LoginView, CreateSuperUserView,CreateDataEntryView, UserViewSet
 from rest_framework.routers import DefaultRouter
 
 router = DefaultRouter()
@@ -12,4 +12,5 @@ urlpatterns = [
     path('create-superuser/', CreateSuperUserView.as_view(), name='create-superuser'),
     path('create-data-entry/', CreateDataEntryView.as_view(), name='create-data-entry'),
     path('', include(router.urls)),
+    path('user/', current_user, name='current-user'),
 ]

@@ -10,7 +10,7 @@ class RegisterSerializer(serializers.ModelSerializer):
     role = serializers.CharField(read_only=True)
     class Meta:
         model = User
-        fields = ('username', 'email', 'password', 'role')
+        fields = ('id' ,'username', 'email', 'password', 'role')
     def create(self, validated_data):
         validated_data['role'] = 'customer'
         return User.objects.create_user(**validated_data)
