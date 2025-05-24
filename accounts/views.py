@@ -17,18 +17,31 @@ class RegisterView(APIView):
             return Response({'id': user.id}, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import status
+from django.contrib.auth import authenticate
+
 class LoginView(APIView):
     def post(self, request):
         user = authenticate(**request.data)
         if not user:
-            return Response({'detail': 'incorrect Data'}, status=status.HTTP_401_UNAUTHORIZED)
+            return Response(
+                {'detail': 'Incorrect credentials'},
+                status=status.HTTP_401_UNAUTHORIZED
+            )
 
         tokens = get_tokens_for_user(user)
 
+        # determine role
+        role = "superuser" if user.is_superuser else user.role
+
         return Response({
             'refresh': tokens['refresh'],
-            'access': tokens['access'],
-            'role': user.role })
+            'access':  tokens['access'],
+            'role':    role,
+        })
+
 
 class CreateSuperUserView(APIView):
     permission_classes = [IsAuthenticated, IsSuperUser]
