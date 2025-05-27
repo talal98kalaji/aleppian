@@ -80,5 +80,5 @@ def current_user(request):
         'id': user.id,
         'username': user.username,
         'is_superuser': user.is_superuser,
-
+        'role': user.role,
     })

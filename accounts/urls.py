@@ -13,4 +13,5 @@ urlpatterns = [
     path('create-data-entry/', CreateDataEntryView.as_view(), name='create-data-entry'),
     path('', include(router.urls)),
     path('user/', current_user, name='current-user'),
+    
 ]
